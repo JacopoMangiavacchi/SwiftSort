@@ -6,14 +6,20 @@
 //
 
 import Foundation
-import QuartzCore
+//import QuartzCore
 
 //UTILITY
-func executionTime(block: ()->()) -> CFTimeInterval {
-    let start = CACurrentMediaTime()
+//func executionTime(block: ()->()) -> CFTimeInterval {
+//    let start = CACurrentMediaTime()
+//    block()
+//    let end = CACurrentMediaTime()
+//    return end - start
+//}
+
+func executionTime(block: ()->()) -> TimeInterval {
+    let start = Date()
     block()
-    let end = CACurrentMediaTime()
-    return end - start
+    return Date().timeIntervalSince(start)
 }
 
 func createRandomIntArray(_ n: Int)  -> [Int] {
