@@ -28,7 +28,12 @@ func createRandomIntArray(_ n: Int)  -> [Int] {
     for _ in 0..<n {
         var notFound = false
         repeat {
-            let r = Int(arc4random()) % n
+            #if os(Linux)
+                let r = Int(random()) % n
+            #else
+                let r = Int(arc4random()) % n
+            #endif
+            
             if array.index(of: r) == nil {
                 notFound = true
                 array.append(r)
