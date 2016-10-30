@@ -31,7 +31,7 @@ func createRandomIntArray(_ n: Int)  -> [Int] {
             #if os(Linux)
                 let r = Int(random()) % n
             #else
-                let r = Int(arc4random()) % n
+                let r = Int(random()) % n
             #endif
             
             if array.index(of: r) == nil {
