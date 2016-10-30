@@ -5,7 +5,7 @@
 //
 //
 
-import Cocoa
+import Foundation
 import QuartzCore
 
 //SORT
