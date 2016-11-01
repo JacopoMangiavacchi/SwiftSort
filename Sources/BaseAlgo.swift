@@ -22,6 +22,7 @@ func executionTime(block: ()->()) -> TimeInterval {
     return Date().timeIntervalSince(start)
 }
 
+
 func createRandomIntArray(_ n: Int)  -> [Int] {
     var array = Array<Int>()
     
@@ -33,7 +34,7 @@ func createRandomIntArray(_ n: Int)  -> [Int] {
             #else
                 let r = Int(arc4random()) % n
             #endif
-            
+
             if array.index(of: r) == nil {
                 notFound = true
                 array.append(r)
@@ -61,6 +62,15 @@ struct Stack<T> {
     }
 }
 
+extension Stack: Sequence {
+    public func makeIterator() -> AnyIterator<T> {
+        var curr = self
+        return AnyIterator {
+            _ -> T? in
+            return curr.pop()
+        }
+    }
+}
 
 //QUEUE ARRAY
 struct Queue<T> {
@@ -85,6 +95,15 @@ struct Queue<T> {
     }
 }
 
+extension Queue: Sequence {
+    public func makeIterator() -> AnyIterator<T> {
+        var curr = self
+        return AnyIterator {
+            _ -> T? in
+            return curr.dequeue()
+        }
+    }
+}
 
 //HEAP
 typealias Heap<T: Comparable> = PriorityQueue<T>
