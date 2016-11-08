@@ -6,6 +6,10 @@
 //
 
 import Foundation
+#if os(Linux)
+    import Glibc
+#endif
+
 //import QuartzCore
 
 //UTILITY
@@ -22,6 +26,15 @@ func executionTime(block: ()->()) -> TimeInterval {
     return Date().timeIntervalSince(start)
 }
 
+extension RandomAccessCollection {
+    func random() -> Iterator.Element? {
+        guard count > 0 else { return nil }
+        let offset = arc4random_uniform(numericCast(count))
+        let i = index(startIndex, offsetBy: numericCast(offset))
+        return self[i]
+    }
+}
+
 
 func createRandomIntArray(_ n: Int)  -> [Int] {
     var array = Array<Int>()
@@ -29,15 +42,11 @@ func createRandomIntArray(_ n: Int)  -> [Int] {
     for _ in 0..<n {
         var notFound = false
         repeat {
-            #if os(Linux)
-                let r = Int(random()) % n
-            #else
-                let r = Int(arc4random()) % n
-            #endif
-
-            if array.index(of: r) == nil {
-                notFound = true
-                array.append(r)
+            if let r = (0..<n).random() {
+                if array.index(of: r) == nil {
+                    notFound = true
+                    array.append(r)
+                }
             }
         } while notFound == false
     }
