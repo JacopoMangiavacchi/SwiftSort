@@ -85,28 +85,41 @@ extension Array where Element : Comparable {
     }
     
     //nlogn
-    mutating func quickSort()  {
-        func quickSort(low: Int, high: Int) {
-            if high-low > 0 {
-                let pivot = partition(low: low, high: high)
-                quickSort(low: low, high: pivot-1)
-                quickSort(low: pivot+1, high: high)
-            }
-        }
-        func partition(low: Int, high: Int) -> Int {
-            //var pivot = high
-            var firstHight = low
-            for i in low..<high {
-                if self[i] < self[high] {
-                    swap(i, firstHight)
-                    firstHight += 1
+    mutating func quickSort() {
+        func partition(from: Int, to: Int) -> Int {
+            let p = self[(from+to)/2] // or random
+            //print("\(from)-\(to)=>\(p)")
+            
+            var left = from
+            var right = to
+            
+            while left<=right {
+                while self[left] < p {
+                    left += 1
+                }
+                while self[right] > p {
+                    right -= 1
+                }
+                
+                if left<=right {
+                    (self[left], self[right]) = (self[right], self[left])
+                    left += 1
+                    right -= 1
                 }
             }
-            swap(high, firstHight)
-            return firstHight
+            
+            return left
         }
-
-        quickSort(low: 0, high: self.count-1)
+        
+        func quickSort(from: Int, to: Int) {
+            if to-from > 0 {
+                let p = partition(from: from, to: to)
+                quickSort(from: from, to: p-1)
+                quickSort(from: p, to: to)
+            }
+        }
+        
+        quickSort(from: 0, to: self.count-1)
     }
 
     
