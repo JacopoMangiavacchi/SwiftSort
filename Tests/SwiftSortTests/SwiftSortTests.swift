@@ -12,17 +12,14 @@ class SwiftSortTests: XCTestCase {
         let t = executionTime { sortF(&array)() }
         let s = array.isSorted()
 
-        #if os(Linux)
-            let r = Int(random()) % array.count
-        #else
-            let r = Int(arc4random()) % array.count
-        #endif
- 
-        let c = array.binarySearch(r)
+        if let r = (0..<array.count).random() {
+            let c = array.binarySearch(r)
+            
+            print("\(testName)  result: \(s)  check: \(c)  in: \(t)")
 
-        print("\(testName)  result: \(s)  check: \(c)  in: \(t)")
-
-        return c
+            return c
+        }
+        return false
     }
 
     func bucketsortTest(testName: String, arraySize: Int) -> Bool {
@@ -30,17 +27,14 @@ class SwiftSortTests: XCTestCase {
         let t = executionTime { array.bucketSort(maxValue: arraySize) }
         let s = array.isSorted()
 
-        #if os(Linux)
-            let r = Int(random()) % array.count
-        #else
-            let r = Int(arc4random()) % array.count
-        #endif
- 
-        let c = array.binarySearch(r)
-
-        print("\(testName)  result: \(s)  check: \(c)  in: \(t)")
-
-        return c
+        if let r = (0..<array.count).random() {
+            let c = array.binarySearch(r)
+            
+            print("\(testName)  result: \(s)  check: \(c)  in: \(t)")
+            
+            return c
+        }
+        return false
     }
 
 
